@@ -7,13 +7,14 @@
         "pretest": "tsc",
         "test": "protractor tmp/config.js",
         "protractor": "./node_modules/protractor/built/cli.js",
-        "webdriver-update":"./node_modules/.bin/webdriver-manager update"
+        "webdriver-update": "./node_modules/.bin/webdriver-manager update"
     },
     "author": "",
     "license": "ISC",
     "devDependencies": {
         "@types/jasmine": "^3.6.10",
         "@types/jasminewd2": "^2.0.8",
+        "@types/node": "^15.0.2",
         "jasmine": "~3.7.0",
         "ts-node": "9.1.1",
         "typescript": "^4.2.4"

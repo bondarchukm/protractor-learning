@@ -1,4 +1,4 @@
-import { ElementFinder, $, $$ } from 'protractor'
+import { ElementFinder, $, $$, promise } from 'protractor'
 import { passwordRequiredError, usernameRequiredError } from '../lib/errors'
 
 export class LoginPageObject {
@@ -24,11 +24,14 @@ export class LoginPageObject {
         await this.setUsername(username)
         await this.setPassword(password)
     }
+    async loginToApp(username: string, password: string): Promise<void>{
+        await this.setCredentials(username, password)
+        await this.clickLoginButton()
+    }
     async clickLoginButton(): Promise<void> {
         await this.loginButton.click()
     }
-    async getCredentialsErrorMessageText(): Promise<string> {
-        const text: string = await this.credentialsErrorMessage.getText()
-        return text
+    getCredentialsErrorMessageText(): promise.Promise<string> {
+        return this.credentialsErrorMessage.getText()
     }
 }

@@ -18,17 +18,31 @@ describe('Login page tests', () => {
     let productsPage = new ProductsPageObject()
 
     enum sortingOptions {
-        az = 'Name (A to Z)', 
+        az = 'Name (A to Z)',
         za = 'Name (Z to A)',
-        lohi = 'Price (low to high)',
-        hilo = 'Price (high to low)',
+        loHi = 'Price (low to high)',
+        hiLo = 'Price (high to low)',
     }
 
-    it('Should select Price(Low to Hi) sorting option', async () => {
+    it('Should sort products by Price(Low to Hi) sorting option', async () => {
         await productsPage.clickSortingOptionsDropdown()
-        await productsPage.clickSortingOption(sortingOptions.lohi)
+        await productsPage.clickSortingOption(sortingOptions.loHi)
+        await browser.sleep(200) // this pause is needed for waiting while page sorting will change
 
-        await browser.sleep(3000)
-        // expect(await productsPage.getPageTitleText()).toEqual('PRODUCTS')
+        let arrayToCheck = await productsPage.getItemsPriceNumberArray()
+        await browser.sleep(300) // without this pause getItemsPriceNumberArray returns an empty array
+
+        expect(await productsPage.validateLoHiSorting(arrayToCheck)).toBe(true)
+    })
+
+    it('Should sort products by Price(Hi to Low) sorting option', async () => {
+        await productsPage.clickSortingOptionsDropdown()
+        await productsPage.clickSortingOption(sortingOptions.hiLo)
+        await browser.sleep(200) // this pause is needed for waiting while page sorting will change
+
+        let arrayToCheck = await productsPage.getItemsPriceNumberArray()
+        await browser.sleep(300) // without this pause getItemsPriceNumberArray returns an empty array
+
+        expect(await productsPage.validateHiLoSorting(arrayToCheck)).toBe(true)
     })
 })

@@ -29,10 +29,7 @@ describe('Login page tests', () => {
         await productsPage.clickSortingOption(sortingOptions.loHi)
         await browser.sleep(200) // this pause is needed for waiting while page sorting will change
 
-        let arrayToCheck = await productsPage.getItemsPriceNumberArray()
-        await browser.sleep(300) // without this pause getItemsPriceNumberArray returns an empty array
-
-        expect(await productsPage.validateLoHiSorting(arrayToCheck)).toBe(true)
+        expect(await productsPage.isPriceLoHiSorted()).toBe(true)
     })
 
     it('Should sort products by Price(Hi to Low) sorting option', async () => {
@@ -40,9 +37,8 @@ describe('Login page tests', () => {
         await productsPage.clickSortingOption(sortingOptions.hiLo)
         await browser.sleep(200) // this pause is needed for waiting while page sorting will change
 
-        let arrayToCheck = await productsPage.getItemsPriceNumberArray()
-        await browser.sleep(300) // without this pause getItemsPriceNumberArray returns an empty array
-
-        expect(await productsPage.validateHiLoSorting(arrayToCheck)).toBe(true)
+        expect(await productsPage.isPriceHiLoSorted()).toBe(true)
     })
+
+
 })

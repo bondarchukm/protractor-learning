@@ -7,6 +7,13 @@ import {
     element,
     by,
 } from 'protractor'
+import { sortingOptions } from '../lib/sortingOptions'
+
+interface Product {
+    name: string
+    price: number
+    description: string
+}
 
 export class ProductsPageObject {
     pageTitle: ElementFinder
@@ -14,6 +21,7 @@ export class ProductsPageObject {
     sortingOptions: string
     itemPrice: ElementArrayFinder
     itemName: ElementArrayFinder
+    itemDescription: ElementArrayFinder
 
     constructor() {
         this.pageTitle = $('.title')
@@ -21,6 +29,7 @@ export class ProductsPageObject {
         this.sortingOptions = '.product_sort_container option'
         this.itemPrice = $$('.inventory_item_price')
         this.itemName = $$('.inventory_item_name')
+        this.itemDescription = $$('.inventory_item_desc')
     }
 
     getPageTitleText(): promise.Promise<string> {
@@ -30,11 +39,14 @@ export class ProductsPageObject {
         return element(by.cssContainingText(this.sortingOptions, text))
     }
 
-    async printArray(array: number[]): Promise<void> {
-        await array.forEach((item, index) => console.log(index, item))
+    async getProductByIndex(index: number): Promise<Product> {
+        let product: Product
+        product.price = await this.getItemsPriceArray()[index]
+
+        return product
     }
 
-    async getItemsPriceNumberArray(): Promise<number[]> {
+    async getItemsPriceArray(): Promise<number[]> {
         // return this.itemPrice.map(async (el: ElementFinder) =>
         //     el ? parseFloat((await el.getText()).split('$')[1]) : undefined)
         let itemPriceArray: number[] = []
@@ -46,6 +58,16 @@ export class ProductsPageObject {
             } else return undefined
         }
         return itemPriceArray
+    }
+    async getItemsNameArray(): Promise<string[]> {
+        let itemNameArray: string[] = []
+        for (let item of await this.itemName) {
+            if (item != undefined) {
+                itemNameArray.push()
+                console.log(itemNameArray)
+            } else return undefined
+        }
+        return itemNameArray
     }
 
     async validateLoHiSorting(array: number[]): Promise<boolean> {
@@ -70,16 +92,17 @@ export class ProductsPageObject {
         }
         return true
     }
-    async isPriceHiLoSorted(): Promise<boolean> {
-        let sorted: boolean = await this.validateHiLoSorting(
-            await this.getItemsPriceNumberArray()
-        )
-        return sorted
-    }
-    async isPriceLoHiSorted(): Promise<boolean> {
-        let sorted: boolean = await this.validateLoHiSorting(
-            await this.getItemsPriceNumberArray()
-        )
+    async isPriceSorted(option: string): Promise<boolean> {
+        let sorted: boolean
+        if (option === sortingOptions.hiLo) {
+            sorted = await this.validateHiLoSorting(
+                await this.getItemsPriceArray()
+            )
+        } else if (option === sortingOptions.loHi) {
+            sorted = await this.validateLoHiSorting(
+                await this.getItemsPriceArray()
+            )
+        } else return undefined
         return sorted
     }
 

@@ -107,6 +107,28 @@ export class ProductsPageObject {
         }
         return true
     }
+    async validateAZSorting(array: string[]): Promise<boolean> {
+        console.log(array)
+        for (let i = 0; i < array.length - 1; i++) {
+            if (array[i] <= array[i + 1]) {
+                continue
+            } else {
+                return false
+            }
+        }
+        return true
+    }
+    async validateZASorting(array: string[]): Promise<boolean> {
+        console.log(array)
+        for (let i = 0; i < array.length - 1; i++) {
+            if (array[i] >= array[i + 1]) {
+                continue
+            } else {
+                return false
+            }
+        }
+        return true
+    }
     async isPriceSorted(option: string): Promise<boolean> {
         let sorted: boolean
         if (option === sortingOptions.hiLo) {
@@ -116,6 +138,19 @@ export class ProductsPageObject {
         } else if (option === sortingOptions.loHi) {
             sorted = await this.validateLoHiSorting(
                 await this.getItemsPriceArray()
+            )
+        } else return undefined
+        return sorted
+    }
+    async isNameSorted(option: string): Promise<boolean> {
+        let sorted: boolean
+        if (option === sortingOptions.az) {
+            sorted = await this.validateAZSorting(
+                await this.getItemsNameArray()
+            )
+        } else if (option === sortingOptions.za) {
+            sorted = await this.validateZASorting(
+                await this.getItemsNameArray()
             )
         } else return undefined
         return sorted

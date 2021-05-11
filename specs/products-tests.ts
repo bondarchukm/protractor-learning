@@ -34,6 +34,10 @@ describe('Login page tests', () => {
         expect(await productsPage.isPriceSorted(sortingOptions.hiLo)).toBe(true)
     })
 
+    // it('Should sort products by Name(A to Z) sorting option', async () => {
+        // await productsPage.clickSortingOptionsDropdown()
+        // await productsPage.clickSortingOption(sortingOptions.az)
+        // await browser.sleep(200) // this pause is needed for waiting while page sorting will change
 
-    })
+    // })
 })

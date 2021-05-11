@@ -84,8 +84,7 @@ export class ProductsPageObject {
         }
         return itemDescriptionArray
     }
-
-    async validateLoHiSorting(array: number[]): Promise<boolean> {
+    async validateAscendSorting(array: string[] | number[]): Promise<boolean> {
         console.log(array)
         for (let i = 0; i < array.length - 1; i++) {
             if (array[i] <= array[i + 1]) {
@@ -96,29 +95,7 @@ export class ProductsPageObject {
         }
         return true
     }
-    async validateHiLoSorting(array: number[]): Promise<boolean> {
-        console.log(array)
-        for (let i = 0; i < array.length - 1; i++) {
-            if (array[i] >= array[i + 1]) {
-                continue
-            } else {
-                return false
-            }
-        }
-        return true
-    }
-    async validateAZSorting(array: string[]): Promise<boolean> {
-        console.log(array)
-        for (let i = 0; i < array.length - 1; i++) {
-            if (array[i] <= array[i + 1]) {
-                continue
-            } else {
-                return false
-            }
-        }
-        return true
-    }
-    async validateZASorting(array: string[]): Promise<boolean> {
+    async validateDescendSorting(array: string[] | number[]): Promise<boolean> {
         console.log(array)
         for (let i = 0; i < array.length - 1; i++) {
             if (array[i] >= array[i + 1]) {
@@ -132,11 +109,11 @@ export class ProductsPageObject {
     async isPriceSorted(option: string): Promise<boolean> {
         let sorted: boolean
         if (option === sortingOptions.hiLo) {
-            sorted = await this.validateHiLoSorting(
+            sorted = await this.validateDescendSorting(
                 await this.getItemsPriceArray()
             )
         } else if (option === sortingOptions.loHi) {
-            sorted = await this.validateLoHiSorting(
+            sorted = await this.validateAscendSorting(
                 await this.getItemsPriceArray()
             )
         } else return undefined
@@ -145,11 +122,11 @@ export class ProductsPageObject {
     async isNameSorted(option: string): Promise<boolean> {
         let sorted: boolean
         if (option === sortingOptions.az) {
-            sorted = await this.validateAZSorting(
+            sorted = await this.validateAscendSorting(
                 await this.getItemsNameArray()
             )
         } else if (option === sortingOptions.za) {
-            sorted = await this.validateZASorting(
+            sorted = await this.validateDescendSorting(
                 await this.getItemsNameArray()
             )
         } else return undefined

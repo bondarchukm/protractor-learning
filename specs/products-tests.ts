@@ -1,4 +1,4 @@
-import { browser } from 'protractor'
+import { browser, promise } from 'protractor'
 import { url } from '../lib/urls'
 import { userData } from '../lib/user.data'
 import { LoginPageObject } from '../pageObjects/login.page'

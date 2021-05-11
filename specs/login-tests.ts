@@ -7,7 +7,9 @@ import {
 } from '../lib/errors'
 import { url } from '../lib/urls'
 import { userData } from '../lib/user.data'
+import { HeaderElementObject } from '../pageObjects/header.element'
 import { LoginPageObject } from '../pageObjects/login.page'
+import { MenuElementObject } from '../pageObjects/menu.element'
 import { ProductsPageObject } from '../pageObjects/products.page'
 
 describe('Login page tests', () => {
@@ -21,6 +23,8 @@ describe('Login page tests', () => {
 
     let loginPage = new LoginPageObject()
     let productsPage = new ProductsPageObject()
+    let header = new HeaderElementObject()
+    let menu = new MenuElementObject()
 
     it('Should successfully login with valid credentials', async () => {
         await loginPage.setCredentials(
@@ -30,6 +34,19 @@ describe('Login page tests', () => {
         await loginPage.clickLoginButton()
 
         expect(await productsPage.getPageTitleText()).toEqual('PRODUCTS')
+    })
+
+    it('Should successfully logout from the app', async () => {
+        await loginPage.setCredentials(
+            userData.standardUserName,
+            userData.password
+        )
+        await loginPage.clickLoginButton()
+        await header.clickMenuButton()
+        await browser.sleep(100)
+        await menu.clickLogoutButton()
+
+        expect(await loginPage.loginButton.isDisplayed()).toBe(true)
     })
 
     it('Should display error when trying to login with empty both Username and Password fields', async () => {

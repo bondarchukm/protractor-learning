@@ -5,7 +5,7 @@ import { LoginPageObject } from '../pageObjects/login.page'
 import { ProductsPageObject } from '../pageObjects/products.page'
 import { sortingOptions } from '../lib/sortingOptions'
 
-describe('Login page tests', () => {
+describe('Products page tests', () => {
     beforeAll(async () => {
         await browser.driver.manage().window().maximize()
     })

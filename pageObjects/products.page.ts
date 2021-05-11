@@ -85,7 +85,7 @@ export class ProductsPageObject {
         return itemDescriptionArray
     }
     async validateAscendSorting(array: string[] | number[]): Promise<boolean> {
-        console.log(array)
+        // console.log(array)
         for (let i = 0; i < array.length - 1; i++) {
             if (array[i] <= array[i + 1]) {
                 continue
@@ -96,7 +96,7 @@ export class ProductsPageObject {
         return true
     }
     async validateDescendSorting(array: string[] | number[]): Promise<boolean> {
-        console.log(array)
+        // console.log(array)
         for (let i = 0; i < array.length - 1; i++) {
             if (array[i] >= array[i + 1]) {
                 continue

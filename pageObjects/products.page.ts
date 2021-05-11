@@ -13,6 +13,7 @@ interface Product {
     name: string
     price: number
     description: string
+    addToCartButtonName: string
 }
 
 export class ProductsPageObject {
@@ -22,7 +23,7 @@ export class ProductsPageObject {
     itemPrice: ElementArrayFinder
     itemName: ElementArrayFinder
     itemDescription: ElementArrayFinder
-    itemNameByIndex: string
+    itemAddToCartButton: ElementArrayFinder
 
     constructor() {
         this.pageTitle = $('.title')
@@ -31,6 +32,7 @@ export class ProductsPageObject {
         this.itemPrice = $$('.inventory_item_price')
         this.itemName = $$('.inventory_item_name')
         this.itemDescription = $$('.inventory_item_desc')
+        this.itemAddToCartButton = $$('button[name*="add-to-cart"]')
     }
 
     getPageTitleText(): promise.Promise<string> {
@@ -41,16 +43,28 @@ export class ProductsPageObject {
     }
 
     async getProductByIndex(index: number): Promise<Product> {
-        const product = {} as Product 
+        const product = {} as Product
         let productPrice: number[] = await this.getItemsPriceArray()
         let productName: string[] = await this.getItemsNameArray()
         let productDescription: string[] = await this.getItemsDescriptionArray()
+        let productAddToCart: string[] = await this.getItemsAddToCartButtonArray()
 
         product.price = productPrice[index]
         product.name = productName[index]
         product.description = productDescription[index]
+        product.addToCartButtonName = productAddToCart[index]
 
         return product
+    }
+
+    async getAddToCartLocatorByProductIndex(
+        index: number
+    ): Promise<ElementFinder> {
+        let product: Product = await this.getProductByIndex(index)
+        let locator: ElementFinder = await $(
+            `button[name="${product.addToCartButtonName}"]`
+        )
+        return locator
     }
 
     async getItemsPriceArray(): Promise<number[]> {
@@ -83,6 +97,15 @@ export class ProductsPageObject {
             } else return undefined
         }
         return itemDescriptionArray
+    }
+    async getItemsAddToCartButtonArray(): Promise<string[]> {
+        let itemAddToCartButtonArray: string[] = []
+        for (let item of await this.itemAddToCartButton) {
+            if (item != undefined) {
+                itemAddToCartButtonArray.push(await item.getAttribute('name'))
+            } else return undefined
+        }
+        return itemAddToCartButtonArray
     }
     async validateAscendSorting(array: string[] | number[]): Promise<boolean> {
         // console.log(array)
@@ -134,7 +157,7 @@ export class ProductsPageObject {
     }
 
     async clickSortingOption(option: string): Promise<void> {
-        (await this.getSortingOptionLocator(option)).click()
+        ;(await this.getSortingOptionLocator(option)).click()
     }
     async clickSortingOptionsDropdown(): Promise<void> {
         await this.sortingOptionsDropdown.click()

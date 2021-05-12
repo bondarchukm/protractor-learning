@@ -5,6 +5,7 @@ import {
     passwordRequiredError,
     usernameRequiredError,
 } from '../lib/errors'
+import { productsPageTitle } from '../lib/pageTitles'
 import { url } from '../lib/urls'
 import { userData } from '../lib/user.data'
 import { HeaderElementObject } from '../pageObjects/header.element'
@@ -34,7 +35,7 @@ describe('Login page tests', () => {
         )
         await loginPage.clickLoginButton()
 
-        expect(await productsPage.getPageTitleText()).toEqual('PRODUCTS')
+        expect(await productsPage.getPageTitleText()).toEqual(productsPageTitle)
     })
 
     it('Should successfully logout from the app', async () => {

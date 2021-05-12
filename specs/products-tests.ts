@@ -5,6 +5,8 @@ import { LoginPageObject } from '../pageObjects/login.page'
 import { ProductsPageObject } from '../pageObjects/products.page'
 import { HeaderElementObject } from '../pageObjects/header.element'
 import { sortingOptions } from '../lib/sortingOptions'
+import { shoppingCartPageTitle } from '../lib/pageTitles'
+import { Product } from '../lib/interfaces'
 
 describe('Products page tests', () => {
     beforeAll(async () => {
@@ -82,6 +84,7 @@ describe('Products page tests', () => {
 
         expect(await header.getShoppingCartBadgeNumber()).toEqual(1)
     })
+
     it('Should add two products to the shopping cart and then remove one', async () => {
         await productsPage.clickAddToCartButton(0)
         await productsPage.clickAddToCartButton(1)
@@ -91,5 +94,20 @@ describe('Products page tests', () => {
         await productsPage.clickRemoveFromCartButton(0)
 
         expect(await header.getShoppingCartBadgeNumber()).toEqual(1)
+    })
+
+    it('Should verify that shopping cart contains added product', async () => {
+        let productOnPage: Product = await productsPage.getProductByIndex(0)
+
+        await productsPage.clickAddToCartButton(0)
+        await header.clickShoppingCartButton()
+
+        expect(await productsPage.getPageTitleText()).toEqual(
+            shoppingCartPageTitle
+        )
+
+        let productInCart: Product = await productsPage.getProductByIndex(0)
+
+        expect(productOnPage).toEqual(productInCart)
     })
 })

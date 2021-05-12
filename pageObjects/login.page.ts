@@ -1,5 +1,4 @@
-import { ElementFinder, $, $$, promise } from 'protractor'
-import { passwordRequiredError, usernameRequiredError } from '../lib/errors'
+import { ElementFinder, $, promise } from 'protractor'
 
 export class LoginPageObject {
     usernameInput: ElementFinder

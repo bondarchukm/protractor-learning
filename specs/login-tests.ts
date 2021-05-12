@@ -1,4 +1,4 @@
-import { browser } from 'protractor'
+import { browser, ExpectedConditions } from 'protractor'
 import {
     lockedUserError,
     notMatchError,
@@ -17,14 +17,15 @@ describe('Login page tests', () => {
         await browser.driver.manage().window().maximize()
     })
     beforeEach(async () => {
-        await browser.waitForAngularEnabled(false)
         await browser.get(url)
     })
 
-    let loginPage = new LoginPageObject()
-    let productsPage = new ProductsPageObject()
-    let header = new HeaderElementObject()
-    let menu = new MenuElementObject()
+    const loginPage = new LoginPageObject()
+    const productsPage = new ProductsPageObject()
+    const header = new HeaderElementObject()
+    const menu = new MenuElementObject()
+
+    const EC = ExpectedConditions
 
     it('Should successfully login with valid credentials', async () => {
         await loginPage.setCredentials(
@@ -43,7 +44,9 @@ describe('Login page tests', () => {
         )
         await loginPage.clickLoginButton()
         await header.clickMenuButton()
-        await browser.sleep(100)
+
+        await browser.wait(EC.visibilityOf(menu.unhiddenMenuElement), 1000)
+
         await menu.clickLogoutButton()
 
         expect(await loginPage.loginButton.isDisplayed()).toBe(true)

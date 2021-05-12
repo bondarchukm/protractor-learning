@@ -1,4 +1,4 @@
-import { ElementFinder, $, $$, promise } from 'protractor'
+import { ElementFinder, $ } from 'protractor'
 
 export class HeaderElementObject {
     menuButton: ElementFinder

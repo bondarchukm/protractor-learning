@@ -1,16 +1,17 @@
-import {Config} from 'protractor'
+import { Config, browser } from 'protractor'
 
 export let config: Config = {
+    onPrepare: async () => await browser.waitForAngularEnabled(false),
     framework: 'jasmine',
     capabilities: {
-      browserName: 'chrome'
+        browserName: 'chrome',
     },
-    specs: [ 'specs/products-tests.js' ],
+    specs: ['specs/products-tests.js'],
     // seleniumAddress: 'http://localhost:4444/wd/hub',
     directConnect: true,
-  
+
     // You could set no globals to true to avoid jQuery '$' and protractor '$'
     // collisions on the global namespace.
     noGlobals: true,
-    SELENIUM_PROMISE_MANAGER: false
+    SELENIUM_PROMISE_MANAGER: false,
 }

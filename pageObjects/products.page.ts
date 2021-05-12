@@ -7,19 +7,14 @@ import {
     element,
     by,
 } from 'protractor'
-import { lockedUserError } from '../lib/errors'
 import { sortingOptions } from '../lib/sortingOptions'
-
-interface Product {
-    name: string
-    price: number
-    description: string
-}
+import { Product } from '../lib/interfaces'
 
 export class ProductsPageObject {
     pageTitle: ElementFinder
     sortingOptionsDropdown: ElementFinder
     sortingOptions: string
+    activeSortingOption: ElementFinder
     itemPriceArray: ElementArrayFinder
     itemNameArray: ElementArrayFinder
     itemDescriptionArray: ElementArrayFinder
@@ -48,6 +43,7 @@ export class ProductsPageObject {
             '.inventory_item:nth-child(${index}) .btn.btn_primary.btn_small.btn_inventory'
         this.itemRemoveFromCart =
             '.inventory_item:nth-child(${index}) .btn.btn_secondary.btn_small.btn_inventory'
+        this.activeSortingOption = $('.active_option')
     }
 
     getPageTitleText(): promise.Promise<string> {

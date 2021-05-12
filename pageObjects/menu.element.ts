@@ -1,4 +1,4 @@
-import { ElementFinder, $, $$ } from 'protractor'
+import { ElementFinder, $ } from 'protractor'
 
 export class MenuElementObject {
     closeMenuButton: ElementFinder
@@ -6,6 +6,7 @@ export class MenuElementObject {
     aboutButton: ElementFinder
     logoutButton: ElementFinder
     resetAppStateButton: ElementFinder
+    unhiddenMenuElement: ElementFinder
 
     constructor() {
         this.closeMenuButton = $('#react-burger-cross-btn')
@@ -13,6 +14,7 @@ export class MenuElementObject {
         this.aboutButton = $('#about_sidebar_link')
         this.logoutButton = $('#logout_sidebar_link')
         this.resetAppStateButton = $('#reset_sidebar_link')
+        this.unhiddenMenuElement = $('a[tabindex="0"]')
     }
 
     async clickCloseMenuButton(): Promise<void> {

@@ -17,7 +17,8 @@ export class HeaderElementObject {
     async clickShoppingCartButton(): Promise<void> {
         await this.shoppingCartButton.click()
     }
-    getShoppingCartBadgeText(): promise.Promise<string> {
-        return this.shoppingCartBadge.getText()
+    async getShoppingCartBadgeNumber(): Promise<number> {
+        let badgeNumber = await parseInt(await this.shoppingCartBadge.getText())
+        return badgeNumber
     }
 }

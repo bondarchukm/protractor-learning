@@ -28,6 +28,7 @@ export class ProductsPageObject {
     itemDescription: string
     itemPrice: string
     itemAddToCart: string
+    itemRemoveFromCart: string
 
     constructor() {
         this.pageTitle = $('.title')
@@ -45,6 +46,8 @@ export class ProductsPageObject {
             '.inventory_item:nth-child(${index}) .inventory_item_price'
         this.itemAddToCart =
             '.inventory_item:nth-child(${index}) .btn.btn_primary.btn_small.btn_inventory'
+        this.itemRemoveFromCart =
+            '.inventory_item:nth-child(${index}) .btn.btn_secondary.btn_small.btn_inventory'
     }
 
     getPageTitleText(): promise.Promise<string> {
@@ -98,6 +101,21 @@ export class ProductsPageObject {
             this.itemAddToCart.replace('${index}', index.toString())
         )
         return addToCartLocator
+    }
+    async clickAddToCartButton(index: number): Promise<void>{
+        await (await this.getItemAddToCartLocatorByIndex(index)).click()
+    }
+
+    async getItemRemoveFromCartLocatorByIndex(
+        index: number
+    ): Promise<ElementFinder> {
+        let removeFromCartLocator: ElementFinder = await $(
+            this.itemRemoveFromCart.replace('${index}', index.toString())
+        )
+        return removeFromCartLocator
+    }
+    async clickRemoveFromCartButton(index: number): Promise<void>{
+        await (await this.getItemRemoveFromCartLocatorByIndex(index)).click()
     }
 
     async getItemsPriceArray(): Promise<number[]> {

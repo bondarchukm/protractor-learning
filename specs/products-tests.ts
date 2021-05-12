@@ -3,6 +3,8 @@ import { url } from '../lib/urls'
 import { userData } from '../lib/user.data'
 import { LoginPageObject } from '../pageObjects/login.page'
 import { ProductsPageObject } from '../pageObjects/products.page'
+import { HeaderElementObject } from '../pageObjects/header.element'
+import { MenuElementObject } from '../pageObjects/menu.element'
 import { sortingOptions } from '../lib/sortingOptions'
 
 describe('Products page tests', () => {
@@ -14,9 +16,15 @@ describe('Products page tests', () => {
         await browser.get(url)
         await loginPage.loginToApp(userData.standardUserName, userData.password)
     })
+    afterEach(async () => {
+        await browser.executeScript('window.sessionStorage.clear();')
+        await browser.executeScript('window.localStorage.clear();')
+    })
 
-    let loginPage = new LoginPageObject()
-    let productsPage = new ProductsPageObject()
+    const loginPage = new LoginPageObject()
+    const productsPage = new ProductsPageObject()
+    const header = new HeaderElementObject()
+    const menu = new MenuElementObject()
 
     it('Should sort products by Price(Low to Hi) sorting option', async () => {
         await productsPage.clickSortingOptionsDropdown()
@@ -48,5 +56,21 @@ describe('Products page tests', () => {
         await browser.sleep(200) // this pause is needed for waiting while page sorting will change
 
         expect(await productsPage.isNameSorted(sortingOptions.az)).toBe(true)
+    })
+
+    it('Should add one product to the shopping cart', async () => {
+        await (await productsPage.getItemAddToCartLocatorByIndex(1)).click()
+
+        expect(await header.getShoppingCartBadgeNumber()).toEqual(1)
+    })
+    it('Should add two products to the shopping cart and then remove one', async () => {
+        await productsPage.clickAddToCartButton(1)
+        await productsPage.clickAddToCartButton(2)
+
+        expect(await header.getShoppingCartBadgeNumber()).toEqual(2)
+
+        await productsPage.clickRemoveFromCartButton(1)
+
+        expect(await header.getShoppingCartBadgeNumber()).toEqual(1)
     })
 })

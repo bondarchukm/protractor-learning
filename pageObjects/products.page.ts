@@ -19,11 +19,7 @@ export class ProductsPageObject {
     itemNameArray: ElementArrayFinder
     itemDescriptionArray: ElementArrayFinder
     itemAddToCartButtonArray: ElementArrayFinder
-    itemName: string
-    itemDescription: string
-    itemPrice: string
-    itemAddToCart: string
-    itemRemoveFromCart: string
+    itemRemoveFromCartButtonArray: ElementArrayFinder
 
     constructor() {
         this.pageTitle = $('.title')
@@ -33,23 +29,14 @@ export class ProductsPageObject {
         this.itemNameArray = $$('.inventory_item_name')
         this.itemDescriptionArray = $$('.inventory_item_desc')
         this.itemAddToCartButtonArray = $$('button[name*="add-to-cart"]')
-        this.itemName =
-            '.inventory_item:nth-child(${index}) .inventory_item_name'
-        this.itemDescription =
-            '.inventory_item:nth-child(${index}) .inventory_item_desc'
-        this.itemPrice =
-            '.inventory_item:nth-child(${index}) .inventory_item_price'
-        this.itemAddToCart =
-            '.inventory_item:nth-child(${index}) .btn.btn_primary.btn_small.btn_inventory'
-        this.itemRemoveFromCart =
-            '.inventory_item:nth-child(${index}) .btn.btn_secondary.btn_small.btn_inventory'
+        this.itemRemoveFromCartButtonArray = $$('button[name*="remove-"]')
         this.activeSortingOption = $('.active_option')
     }
 
     getPageTitleText(): promise.Promise<string> {
         return this.pageTitle.getText()
     }
-    getSortingOptionLocator(text: string): ElementFinder {
+    private getSortingOptionLocator(text: string): ElementFinder {
         return element(by.cssContainingText(this.sortingOptions, text))
     }
 
@@ -66,55 +53,33 @@ export class ProductsPageObject {
                 await (await this.getItemPriceLocatorByIndex(index)).getText()
             ).split('$')[1]
         )
-
         return product
     }
-    async getItemNameLocatorByIndex(index: number): Promise<ElementFinder> {
-        let nameLocator: ElementFinder = await $(
-            this.itemName.replace('${index}', index.toString())
-        )
-        return nameLocator
+    private getItemNameLocatorByIndex(index: number): ElementFinder {
+        return this.itemNameArray.get(index)
     }
-    async getItemDescriptionLocatorByIndex(
-        index: number
-    ): Promise<ElementFinder> {
-        let descriptionLocator: ElementFinder = await $(
-            this.itemDescription.replace('${index}', index.toString())
-        )
-        return descriptionLocator
+    private getItemDescriptionLocatorByIndex(index: number): ElementFinder {
+        return this.itemDescriptionArray.get(index)
     }
-    async getItemPriceLocatorByIndex(index: number): Promise<ElementFinder> {
-        let priceLocator: ElementFinder = await $(
-            this.itemPrice.replace('${index}', index.toString())
-        )
-        return priceLocator
+    private getItemPriceLocatorByIndex(index: number): ElementFinder {
+        return this.itemPriceArray.get(index)
     }
 
-    async getItemAddToCartLocatorByIndex(
-        index: number
-    ): Promise<ElementFinder> {
-        let addToCartLocator: ElementFinder = await $(
-            this.itemAddToCart.replace('${index}', index.toString())
-        )
-        return addToCartLocator
+    private getItemAddToCartLocatorByIndex(index: number): ElementFinder {
+        return this.itemAddToCartButtonArray.get(index)
     }
-    async clickAddToCartButton(index: number): Promise<void>{
+    async clickAddToCartButton(index: number): Promise<void> {
         await (await this.getItemAddToCartLocatorByIndex(index)).click()
     }
 
-    async getItemRemoveFromCartLocatorByIndex(
-        index: number
-    ): Promise<ElementFinder> {
-        let removeFromCartLocator: ElementFinder = await $(
-            this.itemRemoveFromCart.replace('${index}', index.toString())
-        )
-        return removeFromCartLocator
+    private getItemRemoveFromCartLocatorByIndex(index: number): ElementFinder {
+        return this.itemRemoveFromCartButtonArray.get(index)
     }
-    async clickRemoveFromCartButton(index: number): Promise<void>{
+    async clickRemoveFromCartButton(index: number): Promise<void> {
         await (await this.getItemRemoveFromCartLocatorByIndex(index)).click()
     }
 
-    async getItemsPriceArray(): Promise<number[]> {
+    private async getItemsPriceArray(): Promise<number[]> {
         // return this.itemPrice.map(async (el: ElementFinder) =>
         //     el ? parseFloat((await el.getText()).split('$')[1]) : undefined)
         let itemPriceArray: number[] = []
@@ -127,7 +92,7 @@ export class ProductsPageObject {
         }
         return itemPriceArray
     }
-    async getItemsNameArray(): Promise<string[]> {
+    private async getItemsNameArray(): Promise<string[]> {
         let itemNameArray: string[] = []
         for (let item of await this.itemNameArray) {
             if (item != undefined) {
@@ -136,7 +101,7 @@ export class ProductsPageObject {
         }
         return itemNameArray
     }
-    async getItemsDescriptionArray(): Promise<string[]> {
+    private async getItemsDescriptionArray(): Promise<string[]> {
         let itemDescriptionArray: string[] = []
         for (let item of await this.itemDescriptionArray) {
             if (item != undefined) {
@@ -145,7 +110,7 @@ export class ProductsPageObject {
         }
         return itemDescriptionArray
     }
-    async getItemsAddToCartButtonArray(): Promise<string[]> {
+    private async getItemsAddToCartButtonArray(): Promise<string[]> {
         let itemAddToCartButtonArray: string[] = []
         for (let item of await this.itemAddToCartButtonArray) {
             if (item != undefined) {
@@ -154,8 +119,7 @@ export class ProductsPageObject {
         }
         return itemAddToCartButtonArray
     }
-    async validateAscendSorting(array: string[] | number[]): Promise<boolean> {
-        // console.log(array)
+    validateAscendSorting(array: string[] | number[]): boolean {
         for (let i = 0; i < array.length - 1; i++) {
             if (array[i] <= array[i + 1]) {
                 continue
@@ -165,8 +129,7 @@ export class ProductsPageObject {
         }
         return true
     }
-    async validateDescendSorting(array: string[] | number[]): Promise<boolean> {
-        // console.log(array)
+    validateDescendSorting(array: string[] | number[]): boolean {
         for (let i = 0; i < array.length - 1; i++) {
             if (array[i] >= array[i + 1]) {
                 continue
@@ -204,7 +167,7 @@ export class ProductsPageObject {
     }
 
     async clickSortingOption(option: string): Promise<void> {
-        ;(await this.getSortingOptionLocator(option)).click()
+        await (await this.getSortingOptionLocator(option)).click()
     }
     async clickSortingOptionsDropdown(): Promise<void> {
         await this.sortingOptionsDropdown.click()

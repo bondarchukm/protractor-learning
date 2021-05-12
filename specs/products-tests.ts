@@ -78,7 +78,7 @@ describe('Products page tests', () => {
     })
 
     it('Should add one product to the shopping cart', async () => {
-        await (await productsPage.getItemAddToCartLocatorByIndex(1)).click()
+        await productsPage.clickAddToCartButton(0)
 
         expect(await header.getShoppingCartBadgeNumber()).toEqual(1)
     })

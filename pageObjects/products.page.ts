@@ -10,8 +10,9 @@ import {
 import { sortingOptions } from '../lib/sortingOptions'
 import { Product } from '../lib/interfaces'
 import { validateAscendSorting, validateDescendSorting } from '../lib/helpers'
+import { Base } from '../pageObjects/base.page'
 
-export class ProductsPageObject {
+export class ProductsPageObject extends Base{
     pageTitle: ElementFinder
     sortingOptionsDropdown: ElementFinder
     sortingOptions: string
@@ -23,13 +24,14 @@ export class ProductsPageObject {
     itemRemoveFromCartButtonArray: ElementArrayFinder
 
     constructor() {
+        super()
         this.pageTitle = $('.title')
         this.sortingOptionsDropdown = $('.product_sort_container')
         this.sortingOptions = '.product_sort_container option'
         this.itemPriceArray = $$('.inventory_item_price')
         this.itemNameArray = $$('.inventory_item_name')
         this.itemDescriptionArray = $$('.inventory_item_desc')
-        this.itemAddToCartButtonArray = $$('button[name*="add-to-cart"]')
+        this.itemAddToCartButtonArray = $$('.btn.btn_small.btn_inventory')
         this.itemRemoveFromCartButtonArray = $$('button[name*="remove-"]')
         this.activeSortingOption = $('.active_option')
     }
@@ -102,26 +104,6 @@ export class ProductsPageObject {
         }
         return itemNameArray
     }
-    private async getItemsDescriptionArray(): Promise<string[]> {
-        let itemDescriptionArray: string[] = []
-        for (let item of await this.itemDescriptionArray) {
-            if (item != undefined) {
-                itemDescriptionArray.push(await item.getText())
-            } else return undefined
-        }
-        return itemDescriptionArray
-    }
-    private async getItemsAddToCartButtonArray(): Promise<string[]> {
-        let itemAddToCartButtonArray: string[] = []
-        for (let item of await this.itemAddToCartButtonArray) {
-            if (item != undefined) {
-                itemAddToCartButtonArray.push(await item.getAttribute('name'))
-            } else return undefined
-        }
-        return itemAddToCartButtonArray
-    }
-    
-    
     async isPriceSorted(option: string): Promise<boolean> {
         let sorted: boolean
         if (option === sortingOptions.hiLo) {
@@ -138,9 +120,7 @@ export class ProductsPageObject {
     async isNameSorted(option: string): Promise<boolean> {
         let sorted: boolean
         if (option === sortingOptions.az) {
-            sorted = await validateAscendSorting(
-                await this.getItemsNameArray()
-            )
+            sorted = await validateAscendSorting(await this.getItemsNameArray())
         } else if (option === sortingOptions.za) {
             sorted = await validateDescendSorting(
                 await this.getItemsNameArray()

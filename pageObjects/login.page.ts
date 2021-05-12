@@ -1,12 +1,14 @@
 import { ElementFinder, $, promise } from 'protractor'
+import { Base } from '../pageObjects/base.page'
 
-export class LoginPageObject {
+export class LoginPageObject extends Base {
     usernameInput: ElementFinder
     passwordInput: ElementFinder
     loginButton: ElementFinder
     credentialsErrorMessage: ElementFinder
 
     constructor() {
+        super()
         this.usernameInput = $('input[placeholder="Username"]')
         this.passwordInput = $('input[placeholder="Password"]')
         this.loginButton = $('#login-button')
@@ -23,7 +25,7 @@ export class LoginPageObject {
         await this.setUsername(username)
         await this.setPassword(password)
     }
-    async loginToApp(username: string, password: string): Promise<void>{
+    async loginToApp(username: string, password: string): Promise<void> {
         await this.setCredentials(username, password)
         await this.clickLoginButton()
     }

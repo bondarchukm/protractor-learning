@@ -17,7 +17,7 @@ describe('Login page tests', () => {
         await browser.driver.manage().window().maximize()
     })
     beforeEach(async () => {
-        await browser.get(url)
+        await loginPage.navigateTo(url)
     })
 
     const loginPage = new LoginPageObject()

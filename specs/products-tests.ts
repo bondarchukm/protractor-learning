@@ -11,7 +11,7 @@ describe('Products page tests', () => {
         await browser.driver.manage().window().maximize()
     })
     beforeEach(async () => {
-        await browser.get(url)
+        await productsPage.navigateTo(url)
         await loginPage.loginToApp(userData.standardUserName, userData.password)
     })
     afterEach(async () => {
@@ -83,12 +83,12 @@ describe('Products page tests', () => {
         expect(await header.getShoppingCartBadgeNumber()).toEqual(1)
     })
     it('Should add two products to the shopping cart and then remove one', async () => {
+        await productsPage.clickAddToCartButton(0)
         await productsPage.clickAddToCartButton(1)
-        await productsPage.clickAddToCartButton(2)
 
         expect(await header.getShoppingCartBadgeNumber()).toEqual(2)
 
-        await productsPage.clickRemoveFromCartButton(1)
+        await productsPage.clickRemoveFromCartButton(0)
 
         expect(await header.getShoppingCartBadgeNumber()).toEqual(1)
     })

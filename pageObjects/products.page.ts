@@ -9,6 +9,7 @@ import {
 } from 'protractor'
 import { sortingOptions } from '../lib/sortingOptions'
 import { Product } from '../lib/interfaces'
+import { validateAscendSorting, validateDescendSorting } from '../lib/helpers'
 
 export class ProductsPageObject {
     pageTitle: ElementFinder
@@ -119,34 +120,16 @@ export class ProductsPageObject {
         }
         return itemAddToCartButtonArray
     }
-    validateAscendSorting(array: string[] | number[]): boolean {
-        for (let i = 0; i < array.length - 1; i++) {
-            if (array[i] <= array[i + 1]) {
-                continue
-            } else {
-                return false
-            }
-        }
-        return true
-    }
-    validateDescendSorting(array: string[] | number[]): boolean {
-        for (let i = 0; i < array.length - 1; i++) {
-            if (array[i] >= array[i + 1]) {
-                continue
-            } else {
-                return false
-            }
-        }
-        return true
-    }
+    
+    
     async isPriceSorted(option: string): Promise<boolean> {
         let sorted: boolean
         if (option === sortingOptions.hiLo) {
-            sorted = await this.validateDescendSorting(
+            sorted = await validateDescendSorting(
                 await this.getItemsPriceArray()
             )
         } else if (option === sortingOptions.loHi) {
-            sorted = await this.validateAscendSorting(
+            sorted = await validateAscendSorting(
                 await this.getItemsPriceArray()
             )
         } else return undefined
@@ -155,11 +138,11 @@ export class ProductsPageObject {
     async isNameSorted(option: string): Promise<boolean> {
         let sorted: boolean
         if (option === sortingOptions.az) {
-            sorted = await this.validateAscendSorting(
+            sorted = await validateAscendSorting(
                 await this.getItemsNameArray()
             )
         } else if (option === sortingOptions.za) {
-            sorted = await this.validateDescendSorting(
+            sorted = await validateDescendSorting(
                 await this.getItemsNameArray()
             )
         } else return undefined

@@ -29,8 +29,7 @@ export class ProductsPageObject extends Base {
     EC: ProtractorExpectedConditions
 
     constructor() {
-        super()
-        super.url = productsPageURL
+        super(productsPageURL)
         this.pageTitle = $('.title')
         this.sortingOptionsDropdown = $('.product_sort_container')
         this.sortingOptions = '.product_sort_container option'

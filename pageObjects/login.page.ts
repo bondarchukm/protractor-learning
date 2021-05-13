@@ -9,8 +9,7 @@ export class LoginPageObject extends Base {
     credentialsErrorMessage: ElementFinder
 
     constructor() {
-        super()
-        super.url = loginPageURL
+        super(loginPageURL)
         this.usernameInput = $('input[placeholder="Username"]')
         this.passwordInput = $('input[placeholder="Password"]')
         this.loginButton = $('#login-button')

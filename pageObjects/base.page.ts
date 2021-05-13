@@ -1,7 +1,11 @@
 import { browser } from 'protractor'
 
 export abstract class Base {
-    url: string
+    private url: string
+
+    constructor(URL: string){
+        this.url = URL
+    }
 
     async navigateTo(): Promise<void> {
         await browser.get(this.url)

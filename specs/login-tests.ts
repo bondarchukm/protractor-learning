@@ -1,4 +1,4 @@
-import { browser, ExpectedConditions } from 'protractor'
+import { browser } from 'protractor'
 import {
     lockedUserError,
     notMatchError,
@@ -26,8 +26,6 @@ describe('Login page tests', () => {
     const header = new HeaderElementObject()
     const menu = new MenuElementObject()
 
-    const EC = ExpectedConditions
-
     it('Should successfully login with valid credentials', async () => {
         await loginPage.setCredentials(
             userData.standardUserName,
@@ -45,9 +43,6 @@ describe('Login page tests', () => {
         )
         await loginPage.clickLoginButton()
         await header.clickMenuButton()
-
-        await browser.wait(EC.visibilityOf(menu.unhiddenMenuElement), 1000)
-
         await menu.clickLogoutButton()
 
         expect(await loginPage.loginButton.isDisplayed()).toBe(true)

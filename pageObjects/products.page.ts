@@ -6,13 +6,16 @@ import {
     promise,
     element,
     by,
+    ProtractorExpectedConditions,
+    protractor,
+    browser,
 } from 'protractor'
 import { sortingOptions } from '../lib/sortingOptions'
 import { Product } from '../lib/interfaces'
 import { validateAscendSorting, validateDescendSorting } from '../lib/helpers'
 import { Base } from '../pageObjects/base.page'
 
-export class ProductsPageObject extends Base{
+export class ProductsPageObject extends Base {
     pageTitle: ElementFinder
     sortingOptionsDropdown: ElementFinder
     sortingOptions: string
@@ -22,6 +25,7 @@ export class ProductsPageObject extends Base{
     itemDescriptionArray: ElementArrayFinder
     itemAddToCartButtonArray: ElementArrayFinder
     itemRemoveFromCartButtonArray: ElementArrayFinder
+    EC: ProtractorExpectedConditions
 
     constructor() {
         super()
@@ -34,6 +38,7 @@ export class ProductsPageObject extends Base{
         this.itemAddToCartButtonArray = $$('.btn.btn_small.btn_inventory')
         this.itemRemoveFromCartButtonArray = $$('button[name*="remove-"]')
         this.activeSortingOption = $('.active_option')
+        this.EC = protractor.ExpectedConditions
     }
 
     getPageTitleText(): promise.Promise<string> {
@@ -131,6 +136,13 @@ export class ProductsPageObject extends Base{
 
     async clickSortingOption(option: string): Promise<void> {
         await (await this.getSortingOptionLocator(option)).click()
+        await browser.wait(
+            this.EC.textToBePresentInElement(
+                this.activeSortingOption,
+                option.toUpperCase()
+            ),
+            1000
+        )
     }
     async clickSortingOptionsDropdown(): Promise<void> {
         await this.sortingOptionsDropdown.click()

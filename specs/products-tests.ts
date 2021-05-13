@@ -1,4 +1,4 @@
-import { browser, ExpectedConditions } from 'protractor'
+import { browser } from 'protractor'
 import { url } from '../lib/urls'
 import { userData } from '../lib/user.data'
 import { LoginPageObject } from '../pageObjects/login.page'
@@ -25,17 +25,9 @@ describe('Products page tests', () => {
     const productsPage = new ProductsPageObject()
     const header = new HeaderElementObject()
 
-    const EC = ExpectedConditions
-
     it('Should sort products by Price(Low to Hi) sorting option', async () => {
         await productsPage.clickSortingOptionsDropdown()
         await productsPage.clickSortingOption(sortingOptions.loHi)
-
-        let condition = EC.textToBePresentInElement(
-            productsPage.activeSortingOption,
-            sortingOptions.loHi.toUpperCase()
-        )
-        await browser.wait(condition, 1000)
 
         expect(await productsPage.isPriceSorted(sortingOptions.loHi)).toBe(true)
     })
@@ -44,12 +36,6 @@ describe('Products page tests', () => {
         await productsPage.clickSortingOptionsDropdown()
         await productsPage.clickSortingOption(sortingOptions.hiLo)
 
-        let condition = EC.textToBePresentInElement(
-            productsPage.activeSortingOption,
-            sortingOptions.hiLo.toUpperCase()
-        )
-        await browser.wait(condition, 1000)
-
         expect(await productsPage.isPriceSorted(sortingOptions.hiLo)).toBe(true)
     })
 
@@ -57,24 +43,12 @@ describe('Products page tests', () => {
         await productsPage.clickSortingOptionsDropdown()
         await productsPage.clickSortingOption(sortingOptions.za)
 
-        let condition = EC.textToBePresentInElement(
-            productsPage.activeSortingOption,
-            sortingOptions.za.toUpperCase()
-        )
-        await browser.wait(condition, 1000)
-
         expect(await productsPage.isNameSorted(sortingOptions.za)).toBe(true)
     })
 
     it('Should sort products by Name(A to Z) sorting option', async () => {
         await productsPage.clickSortingOptionsDropdown()
         await productsPage.clickSortingOption(sortingOptions.az)
-
-        let condition = EC.textToBePresentInElement(
-            productsPage.activeSortingOption,
-            sortingOptions.az.toUpperCase()
-        )
-        await browser.wait(condition, 1000)
 
         expect(await productsPage.isNameSorted(sortingOptions.az)).toBe(true)
     })

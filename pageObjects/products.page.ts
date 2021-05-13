@@ -14,6 +14,7 @@ import { sortingOptions } from '../lib/sortingOptions'
 import { Product } from '../lib/interfaces'
 import { validateAscendSorting, validateDescendSorting } from '../lib/helpers'
 import { Base } from '../pageObjects/base.page'
+import { productsPageURL } from '../lib/urls'
 
 export class ProductsPageObject extends Base {
     pageTitle: ElementFinder
@@ -29,6 +30,7 @@ export class ProductsPageObject extends Base {
 
     constructor() {
         super()
+        super.url = productsPageURL
         this.pageTitle = $('.title')
         this.sortingOptionsDropdown = $('.product_sort_container')
         this.sortingOptions = '.product_sort_container option'

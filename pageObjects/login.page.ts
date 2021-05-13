@@ -1,5 +1,6 @@
 import { ElementFinder, $, promise } from 'protractor'
 import { Base } from '../pageObjects/base.page'
+import { loginPageURL } from '../lib/urls'
 
 export class LoginPageObject extends Base {
     usernameInput: ElementFinder
@@ -9,6 +10,7 @@ export class LoginPageObject extends Base {
 
     constructor() {
         super()
+        super.url = loginPageURL
         this.usernameInput = $('input[placeholder="Username"]')
         this.passwordInput = $('input[placeholder="Password"]')
         this.loginButton = $('#login-button')

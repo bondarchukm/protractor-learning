@@ -6,7 +6,7 @@ export let config: Config = {
     capabilities: {
         browserName: 'chrome',
     },
-    specs: ['specs/**.js'],
+    specs: ['specs/**-tests.js'],
     // seleniumAddress: 'http://localhost:4444/wd/hub',
     directConnect: true,
 

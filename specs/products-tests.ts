@@ -1,5 +1,4 @@
 import { browser } from 'protractor'
-import { url } from '../lib/urls'
 import { userData } from '../lib/user.data'
 import { LoginPageObject } from '../pageObjects/login.page'
 import { ProductsPageObject } from '../pageObjects/products.page'
@@ -13,7 +12,7 @@ describe('Products page tests', () => {
         await browser.driver.manage().window().maximize()
     })
     beforeEach(async () => {
-        await productsPage.navigateTo(url)
+        await loginPage.navigateTo()
         await loginPage.loginToApp(userData.standardUserName, userData.password)
     })
     afterEach(async () => {

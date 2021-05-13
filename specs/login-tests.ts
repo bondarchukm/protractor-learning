@@ -6,7 +6,6 @@ import {
     usernameRequiredError,
 } from '../lib/errors'
 import { productsPageTitle } from '../lib/pageTitles'
-import { url } from '../lib/urls'
 import { userData } from '../lib/user.data'
 import { HeaderElementObject } from '../pageObjects/header.element'
 import { LoginPageObject } from '../pageObjects/login.page'
@@ -18,7 +17,7 @@ describe('Login page tests', () => {
         await browser.driver.manage().window().maximize()
     })
     beforeEach(async () => {
-        await loginPage.navigateTo(url)
+        await loginPage.navigateTo()
     })
 
     const loginPage = new LoginPageObject()

@@ -21,6 +21,7 @@
         "typescript": "^4.2.4"
     },
     "dependencies": {
-        "protractor": "^7.0.0"
+        "protractor": "^7.0.0",
+        "protractor-axe-report-plugin": "^1.1.0"
     }
 }

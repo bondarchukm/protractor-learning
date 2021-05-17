@@ -1,9 +1,13 @@
 import { browser } from 'protractor'
 import { LoginPageObject } from '../pageObjects/login.page'
+import { screenSize } from '../lib/screenSize'
 
 describe('Image comparison tests', () => {
     beforeAll(async () => {
-        await browser.driver.manage().window().maximize()
+        await browser.driver
+            .manage()
+            .window()
+            .setSize(screenSize.fullHd[0], screenSize.fullHd[1])
     })
     beforeEach(async () => {
         await loginPage.navigateTo()
@@ -14,27 +18,6 @@ describe('Image comparison tests', () => {
     })
 
     const loginPage = new LoginPageObject()
-
-    it('Should save Login Page screens', async () => {
-        // Save the Login Page screen
-        await loginPage.saveScreen('loginPage', {
-            // options
-        })
-
-        // Save the Login Button element
-        await loginPage.saveElement(
-            loginPage.loginButton,
-            'loginButtonElement',
-            {
-                // options
-            }
-        )
-
-        // Save the full Login Page screens
-        await loginPage.saveFullPageScreen('fullLoginPage', {
-            // options
-        })
-    })
 
     it('Should compare Login Page screens successful with a baseline', async () => {
         // Check the Login Page screen

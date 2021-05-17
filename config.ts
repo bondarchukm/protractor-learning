@@ -7,7 +7,7 @@ export let config: Config = {
     capabilities: {
         browserName: 'chrome',
     },
-    specs: ['specs/accessebility-tests.js'],
+    specs: ['specs/image-comparsion-tests.js'],
     // seleniumAddress: 'http://localhost:4444/wd/hub',
     directConnect: true,
 

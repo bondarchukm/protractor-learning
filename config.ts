@@ -36,8 +36,7 @@ export let config: Config = {
             displayViolations: true, // Display vioaltions. Defaults to true.
             standardsToReport: ['wcag2a', 'wcag2aa'], // A list of standards to report on. If empty, reports on all standards.
             ignoreAxeFailures: false, // If true, aXe failures won't cause the whole test to fail. Defaults to false
-            package: 'protractor-axe-report-plugin',
-            htmlReportPath: '/reports',
+            package: 'protractor-axe-html-report-plugin',
             globalParams: {
                 exclude: 'mat-select',
                 options: {
@@ -47,6 +46,7 @@ export let config: Config = {
                     },
                 },
             }, // This is a configuration object, see below for more detail.
+            htmlReportPath: 'reports', // The path to the report folder. If null, no HTML report will be generated
         },
     ],
 }

@@ -1,4 +1,5 @@
 import { browser } from 'protractor'
+import { userData } from '../lib/user.data'
 import { LoginPageObject } from '../pageObjects/login.page'
 
 describe('Accessibility tests', () => {
@@ -15,9 +16,14 @@ describe('Accessibility tests', () => {
 
     const loginPage = new LoginPageObject()
 
-    let axe = require('protractor-axe-report-plugin')
+    let axe = require('protractor-axe-html-report-plugin')
 
     it('Should check accessibility of Login Page', async () => {
-        axe.runAxeTest('Login page')
+        await axe.runAxeTest('Login page')
+    })
+
+    it('Should check accessibility of Products Page', async () => {
+        await loginPage.loginToApp(userData.standardUserName, userData.password)
+        await axe.runAxeTest('Products page')
     })
 })

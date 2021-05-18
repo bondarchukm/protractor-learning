@@ -7,7 +7,7 @@ export let config: Config = {
     capabilities: {
         browserName: 'chrome',
     },
-    specs: ['specs/image-comparsion-tests.js'],
+    specs: ['specs/accessebility-tests.js'],
     // seleniumAddress: 'http://localhost:4444/wd/hub',
     directConnect: true,
 
@@ -34,16 +34,16 @@ export let config: Config = {
             displayContext: true, // Displays the HTML of interest. Defaults to true.
             displayPasses: true, // Display pass results. Defaults to true.
             displayViolations: true, // Display vioaltions. Defaults to true.
-            standardsToReport: ['wcag2a', 'wcag2aa'], // A list of standards to report on. If empty, reports on all standards.
+            // standardsToReport: ['wcag2a', 'wcag2aa'], // A list of standards to report on. If empty, reports on all standards.
             ignoreAxeFailures: false, // If true, aXe failures won't cause the whole test to fail. Defaults to false
             package: 'protractor-axe-html-report-plugin',
             globalParams: {
                 exclude: 'mat-select',
                 options: {
-                    runOnly: {
-                        type: 'tag',
-                        values: ['wcag2a', 'wcag2aa'],
-                    },
+                    // runOnly: {
+                    //     type: 'tag',
+                    //     values: ['wcag2a', 'wcag2aa'],
+                    // },
                 },
             }, // This is a configuration object, see below for more detail.
             htmlReportPath: 'reports', // The path to the report folder. If null, no HTML report will be generated

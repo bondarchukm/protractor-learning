@@ -21,6 +21,7 @@
         "typescript": "^4.2.4"
     },
     "dependencies": {
+        "jasmine-allure-reporter": "^1.0.2",
         "protractor": "^7.0.0",
         "protractor-axe-html-report-plugin": "^1.1.1"
     }

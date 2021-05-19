@@ -2,7 +2,15 @@ import { Config, browser } from 'protractor'
 import { join } from 'path'
 
 export let config: Config = {
-    onPrepare: async () => await browser.waitForAngularEnabled(false),
+    onPrepare: async () => {
+        await browser.waitForAngularEnabled(false)
+        let AllureReporter = require('jasmine-allure-reporter')
+        jasmine.getEnv().addReporter(
+            await new AllureReporter({
+                resultsDir: 'allure-results',
+            })
+        )
+    },
     framework: 'jasmine',
     capabilities: {
         browserName: 'chrome',

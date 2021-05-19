@@ -2,4 +2,6 @@ node_modules/
 tmp/
 .tmp/
 reports/
+allure-report/
+allure-results/
 .prettierrc

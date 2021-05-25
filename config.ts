@@ -7,9 +7,9 @@ export let config: Config = {
     capabilities: {
         browserName: 'chrome',
     },
-    specs: ['specs/accessebility-tests.js'],
-    // seleniumAddress: 'http://localhost:4444/wd/hub',
-    directConnect: true,
+    specs: ['specs/**-tests.js'],
+    seleniumAddress: 'http://localhost:4444/wd/hub',
+    // directConnect: true,
 
     // You could set no globals to true to avoid jQuery '$' and protractor '$'
     // collisions on the global namespace.
